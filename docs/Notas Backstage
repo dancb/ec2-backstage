@@ -1,0 +1,11 @@
+- Comandos para validar herramientas instaladas en la ec2, en el user_data
+# Verificar la versión de Node.js
+  node -v
+# Verificar la versión de Git
+  git --version
+# Verificar la versión de Yarn
+  yarn --version
+# Verificar que Backstage está corriendo
+  ps aux | grep 'yarn dev'
+# Verificar el log de user_data
+cat /var/log/user-data.log
