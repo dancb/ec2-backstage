@@ -112,7 +112,7 @@ resource "aws_security_group" "backstage_sg" {
 
 # Crear una instancia EC2 para Backstage
 resource "aws_instance" "backstage_instance" {
-  ami           = "ami-0c02fb55956c7d316"  # Amazon Linux 2 para us-east-1
+  ami           = "ami-028f6d7ddc3079baf"  # Ubuntu 22.04 LTS Pro Server. Esta es una versión LTS (Long Term Support), lo que garantiza estabilidad y soporte a largo plazo
   instance_type = "t3.medium"
   subnet_id     = aws_subnet.backstage_public_subnet.id
   security_groups = [aws_security_group.backstage_sg.id]
