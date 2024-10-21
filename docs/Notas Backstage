@@ -11,6 +11,6 @@
   cat /var/log/user-data.log
   cat /var/log/cloud-init-output.log
 # Verificar que paso 100 lineas antes y 100 despues de instalar nodey git
-  grep -C 100 "Installing Node.js 18.x and Git.." /var/log/user-data.log
+  grep -C 100 "########## Instalando NVM (Node Version Manager)" /var/log/user-data.log
 
 # Revisar esta guia: https://www.youtube.com/watch?v=r46uFbu9wOs&t=2047s
