@@ -8,4 +8,5 @@
 # Verificar que Backstage está corriendo
   ps aux | grep 'yarn dev'
 # Verificar el log de user_data
-cat /var/log/user-data.log
+  cat /var/log/user-data.log
+  cat /var/log/cloud-init-output.log

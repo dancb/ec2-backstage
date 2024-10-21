@@ -85,6 +85,13 @@ resource "aws_security_group" "backstage_sg" {
   }
 
   ingress {
+    from_port   = 3000
+    to_port     = 3000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
@@ -113,25 +120,54 @@ resource "aws_instance" "backstage_instance" {
 
   # Instalar Backstage en la instancia
   user_data = <<-EOF
-              #!/bin/bash
-              # Actualizar el sistema
-              yum update -y
+                #!/bin/bash
 
-              # Instalar Node.js y Git
-              curl -sL https://rpm.nodesource.com/setup_18.x | bash -
-              sudo yum install -y nodejs git
+                # Archivo de log
+                LOG_FILE="/var/log/user-data.log"
 
-              # Instalar Yarn
-              npm install --global yarn
+                # Redirigir toda la salida a este archivo de log
+                exec > >(sudo tee -a $LOG_FILE /var/log/cloud-init-output.log) 2>&1
 
-              # Clonar el repositorio Backstage
-              git clone https://github.com/backstage/backstage.git /home/ec2-user/backstage
+                echo "User Data script started at $(date)" | sudo tee -a $LOG_FILE
 
-              # Instalar dependencias
-              cd /home/ec2-user/backstage && yarn install
+                # Actualizar el sistema
+                echo "Updating system packages..." | sudo tee -a $LOG_FILE
+                sudo yum update -y | sudo tee -a $LOG_FILE
 
-              # Iniciar Backstage en segundo plano
-              # yarn dev &
+                # Instalar Node.js y Git
+                echo "Installing Node.js and Git..." | sudo tee -a $LOG_FILE
+                curl -sL https://rpm.nodesource.com/setup_18.x | sudo bash - | sudo tee -a $LOG_FILE
+                sudo yum install -y nodejs git | sudo tee -a $LOG_FILE
+
+                # Verificar la instalación de Node.js
+                echo "Node.js version:" | sudo tee -a $LOG_FILE
+                node -v | sudo tee -a $LOG_FILE
+
+                # Verificar la instalación de Git
+                echo "Git version:" | sudo tee -a $LOG_FILE
+                git --version | sudo tee -a $LOG_FILE
+
+                # Instalar Yarn
+                echo "Installing Yarn..." | sudo tee -a $LOG_FILE
+                sudo npm install --global yarn | sudo tee -a $LOG_FILE
+
+                # Verificar la instalación de Yarn
+                echo "Yarn version:" | sudo tee -a $LOG_FILE
+                yarn --version | sudo tee -a $LOG_FILE
+
+                # Clonar el repositorio Backstage
+                echo "Cloning the Backstage repository..." | sudo tee -a $LOG_FILE
+                sudo git clone https://github.com/backstage/backstage.git /home/ec2-user/backstage | sudo tee -a $LOG_FILE
+
+                # Instalar dependencias de Backstage
+                echo "Installing Backstage dependencies..." | sudo tee -a $LOG_FILE
+                cd /home/ec2-user/backstage && sudo yarn install | sudo tee -a $LOG_FILE
+
+                # Iniciar Backstage en segundo plano
+                echo "Starting Backstage..." | sudo tee -a $LOG_FILE
+                sudo yarn dev &
+
+                echo "User Data script finished at $(date)" | sudo tee -a $LOG_FILE
               EOF
 
   tags = {
