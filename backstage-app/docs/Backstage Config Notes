@@ -8,3 +8,14 @@
 - Config git
     git config --global user.email "dan.cbaez@gmail.com"
     git config --global user.name "Daniel"
+
+- Config de red en app-config.yaml
+    app:
+        title: Backstage App
+        baseUrl: http://203.0.113.10:3000  # IP pública o DNS de EC2 para el frontend
+
+    backend:
+        baseUrl: http://203.0.113.10:7007  # IP pública o DNS de EC2 para el backend
+        listen:
+            port: 7007
+            host: 0.0.0.0
