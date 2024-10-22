@@ -15,19 +15,5 @@
 
 # Revisar esta guia: https://www.youtube.com/watch?v=r46uFbu9wOs&t=2047s
 
-
-sudo yarn --version
-sudo git --version
-sudo node -v
-sudo npm -v
-sudo docker --version
-
-
-sudo yarn --version
-sudo node -v
-sudo npm -v
-
-
-yarn --version
-node -v
-npm -v
+# GitHub ahora solo permite autenticarse para descargar repos con un token
+  git clone https://dancb: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@github.com/dancb/ec2-backstage.git

@@ -1,0 +1,3 @@
+- Adentro del directorio backstage-app
+    yarn install
+    yarn start
