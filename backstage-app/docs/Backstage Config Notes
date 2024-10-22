@@ -1,3 +1,10 @@
 - Adentro del directorio backstage-app
     yarn install
     yarn start
+
+- En otra pestaña y adentro de backstage-app
+    yarn start-backend
+
+- Config git
+    git config --global user.email "dan.cbaez@gmail.com"
+    git config --global user.name "Daniel"
