@@ -85,8 +85,15 @@ resource "aws_security_group" "backstage_sg" {
   }
 
   ingress {
-    from_port   = 3000
+    from_port   = 3000 // Backstage App
     to_port     = 3000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 5432 // Postreesql
+    to_port     = 5432
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -99,7 +106,7 @@ resource "aws_security_group" "backstage_sg" {
   }
 
   ingress {
-    from_port   = 7007
+    from_port   = 7007 // Backstage Backend
     to_port     = 7007
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]

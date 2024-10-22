@@ -41,6 +41,24 @@ sudo apt-get install -y docker-ce docker-ce-cli containerd.io
 # Agregar usuario actual al grupo Docker para usar Docker sin sudo
 sudo usermod -aG docker ${USER}
 
+########## Instalando PostgreSQL ##########
+echo "Instalando PostgreSQL..."
+sudo apt-get install -y postgresql postgresql-contrib
+
+# Iniciar el servicio de PostgreSQL y habilitarlo para que se inicie en el arranque
+sudo systemctl start postgresql
+sudo systemctl enable postgresql
+
+
+########## Creación de usuario y base de datos de ejemplo (opcional) ##########
+# Cambia el directorio antes de ejecutar comandos como el usuario postgres
+cd /tmp
+
+# Crear un nuevo usuario y base de datos de ejemplo (opcional)
+# Nota: Puedes modificar estos valores según sea necesario.
+sudo -u postgres psql -c "CREATE USER daniel WITH PASSWORD 'daniel';"
+sudo -u postgres psql -c "CREATE DATABASE mydb OWNER daniel;"
+
 ########## Imprimiendo las versiones instaladas ##########
 echo "Verificando versiones instaladas..."
 echo "Node.js version: $(node -v)"
@@ -48,5 +66,6 @@ echo "npm version: $(npm -v)"
 echo "Yarn version: $(yarn --version)"
 echo "Git version: $(git --version)"
 echo "Docker version: $(docker --version)"
+echo "PostgreSQL version: $(psql --version)"
 
 echo "El script de instalación finalizó en $(date)"
